@@ -1,0 +1,147 @@
+	/* Momentum regulators:
+	To make sure the rocket doesnt go at max speed
+	*/
+
+	//To make sure passengers don't experience more than 3Gs
+
+	if r.vy > 27 {
+		return
+	}
+
+	if r.vy < 0 {
+		r.thrustRocket()
+	}
+
+	if r.vx > 30 {
+		r.updatePitch(-0.1)
+		r.thrustRocket()
+		return
+	}
+
+	if r.vx < -20 {
+		r.updatePitch(0.1)
+		r.thrustRocket()
+		return
+	}
+
+	/* --- Rocket is within bounds --- */
+
+	rocket_in_pad := (r.position.X > -15 && r.position.X < 15 && r.position.Z > -15 && r.position.Z < 15)
+
+	if rocket_in_pad {
+
+		fmt.Println("IN PAD")
+
+		if r.vy > 7 || r.position.Y > 30 {
+			return
+		}
+
+		if r.vy < -4 {
+			r.thrustRocket()
+			return1
+		}
+
+	} else {
+
+		/*--- Rocket outsisde of landing pad ---*/
+		if r.position.Y > 30 {
+			return
+		}
+		//Max height regulator
+	}
+
+	if r.position.X > 0 {
+		r.updatePitch(-(r.position.X / 100))
+		r.thrustRocket()
+	} else {
+		r.updatePitch((r.position.X / 100))
+		r.thrustRocket()
+	}
+
+
+
+    -------------
+
+    BRUH 2  else: 
+    -----
+
+fmt.Println("OUT PAD")
+
+		if r.vx > -r.position.X {
+			r.updatePitch(-0.5)
+			r.thrustRocket()
+		} else if r.vx < -r.position.X {
+			r.updatePitch(0.5)
+			r.thrustRocket()
+		}
+
+		/* Outside the pad */
+		if r.position.X > 0 {
+
+			if r.vx > -r.position.X || r.vx > 15 || r.vy > -r.position.Y*5 {
+				// r.updatePitch(-0.5)
+				// r.thrustRocket()
+				return
+			}
+
+			r.updatePitch(-0.1)
+			r.thrustRocket()
+			return
+		} else {
+
+			if r.vx < -r.position.X || r.vx < -15 || r.vy > -r.position.Y*5 {
+
+				// r.updatePitch(0.5)
+				// r.thrustRocket()
+				return
+			}
+
+			r.updatePitch(0.1)
+			r.thrustRocket()
+			return
+		}
+
+
+
+------
+
+WORKING ELSE:
+
+
+		//Head to 0,0
+		if r.vy < -r.position.Y*5 {
+
+			if r.position.X > 0 {
+				if r.vx > -5 {
+					r.updatePitch(-0.1)
+				}
+			} else {
+				if r.vx < 5 {
+					r.updatePitch(0.1)
+				}
+			}
+
+			r.thrustRocket()
+			return
+		}
+
+
+-------
+
+WORKING MORE PRESICION:
+
+//Head to 0,0
+		if r.vy < -r.position.Y*5 || r.position.Y < 10 {
+
+			if r.position.X > 0 {
+				if r.vx > -5 {
+					// r.updatePitch(-0.1 * (r.position.X / 10))
+				}
+			} else {
+				if r.vx < 5 {
+					// r.updatePitch(0.1 * (r.position.X / 10))
+				}
+			}
+			r.thrustRocket()
+			return
+		}
